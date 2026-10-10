@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10141d">
+  <meta name="description" content="Organiza una quedada: elige lugar, fecha y hora.">
+  <title>¿Cuándo quedamos?</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a href="#" class="brand" id="brand">
+        <span class="brand-icon">Q</span>
+        <span>QUEDAMOS<span class="brand-dot">.</span></span>
+      </a>
+      <span class="top-label">PLANEA TU QUEDADA</span>
+    </header>
+
+    <div class="progress-area" id="progressArea" hidden>
+      <div class="progress-info">
+        <span id="stepLabel">PASO 1 DE 4</span>
+        <span id="progressPercent">25%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- PASO 1: INICIO -->
+    <section class="screen active" id="welcomeScreen">
+      <div class="hero">
+        <div class="eyebrow">
+          <span class="status-dot"></span>
+          ORGANIZA TU PRÓXIMO PLAN
+        </div>
+
+        <h1>¿Cuándo<br>quedamos<span class="accent">?</span></h1>
+
+        <p class="hero-description">
+          Un sitio, un día y una hora.<br>
+          El resto es ponerse de acuerdo.
+        </p>
+
+        <button class="btn btn-primary btn-start" id="startBtn">
+          Pulsa para continuar
+          <span class="btn-arrow">→</span>
+        </button>
+
+        <div class="hero-footer">
+          <span>01 — LUGAR</span>
+          <span>02 — FECHA</span>
+          <span>03 — HORA</span>
+        </div>
+      </div>
+
+      <div class="side-note">
+        <div class="note-number">01</div>
+        <p>Los buenos planes empiezan por ponerse de acuerdo.</p>
+        <span class="note-line"></span>
+      </div>
+    </section>
+
+    <!-- PASO 2: LUGAR -->
+    <section class="screen" id="placeScreen" hidden>
+      <div class="section-heading">
+        <span class="eyebrow">PRIMERA DECISIÓN</span>
+        <h2>¿Dónde nos<br>vemos<span class="accent">?</span></h2>
+        <p>Elige el sitio para la quedada.</p>
+      </div>
+
+      <div class="place-grid">
+        <button class="place-card" data-place="Campito">
+          <span class="place-icon">⚽</span>
+          <span class="place-name">Campito</span>
+          <span class="place-description">Un rato al aire libre</span>
+          <span class="card-arrow">↗</span>
+        </button>
+
+        <button class="place-card" data-place="Dar un paseo">
+          <span class="place-icon">🚶</span>
+          <span class="place-name">Dar un paseo</span>
+          <span class="place-description">Salir y desconectar</span>
+          <span class="card-arrow">↗</span>
+        </button>
+
+        <button class="place-card" data-place="Casa">
+          <span class="place-icon">🏠</span>
+          <span class="place-name">Casa</span>
+          <span class="place-description">Un plan tranquilo</span>
+          <span class="card-arrow">↗</span>
+        </button>
+
+        <button class="place-card" data-place="Parque">
+          <span class="place-icon">🌳</span>
+          <span class="place-name">Parque</span>
+          <span class="place-description">Aprovechar el día</span>
+          <span class="card-arrow">↗</span>
+        </button>
+      </div>
+
+      <div class="navigation">
+        <button class="btn btn-secondary" data-back="welcomeScreen">← Volver</button>
+        <span class="selection-hint">SELECCIONA UN LUGAR</span>
+      </div>
+    </section>
+
+    <!-- PASO 3: CALENDARIO -->
+    <section class="screen" id="dateScreen" hidden>
+      <div class="section-heading">
+        <span class="eyebrow">SEGUNDA DECISIÓN</span>
+        <h2>Elige el<br>día<span class="accent">.</span></h2>
+        <p>Selecciona el mes y después el día.</p>
+      </div>
+
+      <div class="calendar-card">
+        <div class="calendar-toolbar">
+          <button class="icon-btn" id="prevMonth" aria-label="Mes anterior">←</button>
+
+          <div class="calendar-selectors">
+            <label class="visually-hidden" for="monthSelect">Mes</label>
+            <select id="monthSelect"></select>
+            <label class="visually-hidden" for="yearSelect">Año</label>
+            <select id="yearSelect"></select>
+          </div>
+
+          <button class="icon-btn" id="nextMonth" aria-label="Mes siguiente">→</button>
+        </div>
+
+        <div class="weekdays" aria-hidden="true">
+          <span>LUN</span>
+          <span>MAR</span>
+          <span>MIÉ</span>
+          <span>JUE</span>
+          <span>VIE</span>
+          <span>SÁB</span>
+          <span>DOM</span>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <div class="calendar-legend">
+          <span class="legend-dot"></span>
+          HOY
+          <span class="legend-selected"></span>
+          DÍA ELEGIDO
+        </div>
+      </div>
+
+      <div class="selected-info" id="dateSelectionInfo" aria-live="polite">
+        Selecciona un día del calendario
+      </div>
+
+      <div class="navigation">
+        <button class="btn btn-secondary" data-back="placeScreen">← Volver</button>
+        <button class="btn btn-primary" id="dateContinueBtn" disabled>
+          Elegir hora →
+        </button>
+      </div>
+    </section>
+
+    <!-- PASO 4: HORA -->
+    <section class="screen" id="timeScreen" hidden>
+      <div class="section-heading">
+        <span class="eyebrow">ÚLTIMA DECISIÓN</span>
+        <h2>¿A qué<br>hora<span class="accent">?</span></h2>
+        <p>Elige una hora y ajusta los minutos.</p>
+      </div>
+
+      <div class="time-card">
+        <div class="time-display">
+          <span class="clock-symbol">◷</span>
+          <span id="timePreview" aria-live="polite">17:00</span>
+        </div>
+
+        <div class="time-columns">
+          <div class="time-column">
+            <label for="hourSelect">HORA</label>
+            <select id="hourSelect" size="5" aria-label="Seleccionar hora"></select>
+          </div>
+
+          <div class="time-separator">:</div>
+
+          <div class="time-column">
+            <label for="minuteSelect">MINUTOS</label>
+            <select id="minuteSelect" size="5" aria-label="Seleccionar minutos"></select>
+          </div>
+        </div>
+
+        <p class="time-help">Formato de 24 horas · Intervalos de 5 minutos</p>
+      </div>
+
+      <div class="navigation">
+        <button class="btn btn-secondary" data-back="dateScreen">← Volver</button>
+        <button class="btn btn-primary" id="finishBtn">Ver resumen →</button>
+      </div>
+    </section>
+
+    <!-- RESULTADO FINAL -->
+    <section class="screen" id="resultScreen" hidden>
+      <div class="section-heading">
+        <span class="eyebrow"><span class="status-dot"></span> PLAN PREPARADO</span>
+        <h2>¡Ya tenemos<br>el plan<span class="accent">!</span></h2>
+        <p>Este es el resumen de tu quedada.</p>
+      </div>
+
+      <div class="result-card">
+        <div class="result-top">
+          <span class="result-tag">TU QUEDADA</span>
+          <span class="result-check">✓</span>
+        </div>
+
+        <div class="result-place">
+          <span class="result-icon" id="resultIcon">⚽</span>
+          <div>
+            <span class="result-label">LUGAR</span>
+            <h3 id="resultPlace">Campito</h3>
+          </div>
+        </div>
+
+        <div class="result-divider"></div>
+
+        <div class="result-details">
+          <div class="result-detail">
+            <span class="detail-icon">▦</span>
+            <div>
+              <span class="result-label">FECHA</span>
+              <strong id="resultDate">—</strong>
+            </div>
+          </div>
+
+          <div class="result-detail">
+            <span class="detail-icon">◷</span>
+            <div>
+              <span class="result-label">HORA</span>
+              <strong id="resultTime">17:00</strong>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full" id="copyBtn">
+          <span id="copyBtnText">Copiar resumen</span>
+          <span>↗</span>
+        </button>
+      </div>
+
+      <button class="btn btn-secondary btn-full restart-btn" id="restartBtn">
+        Crear otra quedada ↻
+      </button>
+      <p class="final-note">Hecho. Ahora solo queda ponerse de acuerdo.</p>
+    </section>
+
+    <footer class="site-footer">
+      <span>QUEDAMOS<span class="accent">.</span></span>
+      <span>MENOS VUELTAS, MÁS PLANES.</span>
+    </footer>
+  </main>
+</body>
+</html>
